@@ -3,48 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nút Bấm Siêu Thối</title>
+    <title>Nút Bấm Chủ Tịch Kim</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #1a1c1a; /* Màu tối hơi ngả rêu */
-            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* Màu tối huyền bí */
+            font-family: Arial, sans-serif;
             margin: 0;
+            color: #ddd;
         }
-        .btn-fart {
-            padding: 25px 50px;
-            font-size: 26px;
-            font-weight: bold;
-            color: white;
-            /* Đổi sang màu xanh lá/nâu cho đúng vibe "bốc mùi" */
-            background: linear-gradient(45deg, #a8ff78, #78ffd6); 
-            color: #222;
-            border: none;
-            border-radius: 50px;
+
+        /* Container của cái nút bấm - hình ảnh */
+        .kim-btn-container {
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(120, 255, 214, 0.4);
-            transition: transform 0.1s, box-shadow 0.1s;
+            transition: transform 0.1s;
+            position: relative;
+            display: inline-block;
         }
-        .btn-fart:active {
-            transform: scale(0.9);
-            box-shadow: 0 5px 10px rgba(120, 255, 214, 0.4);
+
+        /* Hình ảnh Chủ tịch Kim */
+        .kim-img {
+            width: 300px; /* Điều chỉnh kích thước ảnh ở đây */
+            height: auto;
+            border-radius: 15px; /* Bo góc ảnh cho đẹp */
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); /* Hiệu ứng bóng đổ màu vàng kim */
+            border: 3px solid #ffd700; /* Viền màu vàng kim sang trọng */
+            transition: box-shadow 0.1s, border-color 0.1s;
+        }
+
+        /* Hiệu ứng khi di chuột qua */
+        .kim-btn-container:hover .kim-img {
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+            border-color: #fff; /* Đổi viền sang trắng khi hover */
+        }
+
+        /* Hiệu ứng khi bấm */
+        .kim-btn-container:active {
+            transform: scale(0.95); /* Thu nhỏ nhẹ khi bấm */
+        }
+        .kim-btn-container:active .kim-img {
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Text hướng dẫn dưới ảnh */
+        .hieu-lenh-text {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffd700; /* Màu vàng kim */
         }
     </style>
 </head>
 <body>
 
-    <!-- Cái nút siêu thối -->
-    <button class="btn-fart" onclick="thasuckien()">BẤM ĐỂ PHÁT RA ÂM THANH!</button>
+    <!-- Container của cái nút bấm hình ảnh -->
+    <div class="kim-btn-container" onclick="phatLenh()">
+        <img src="kim-jong-un.jpg" alt="Chủ tịch Kim Jong Un" class="kim-img">
+        <div class="hieu-lenh-text">BẤM VÀO ẢNH ĐỂ NGHE HIỆU LỆNH!</div>
+    </div>
 
-    <!-- Link âm thanh trực tiếp từ cái nút mầy chọn trên Myinstants -->
-    <audio id="tieng-bom" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
+    <!-- Vẫn là link âm thanh trực tiếp từ Myinstants của mầy -->
+    <audio id="tieng-lenh" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
 
     <script>
-        function thasuckien() {
-            var audio = document.getElementById("tieng-bom");
+        function phatLenh() {
+            var audio = document.getElementById("tieng-lenh");
             audio.currentTime = 0; // Bấm liên tục nó sẽ ngắt để kêu lại từ đầu cho nhây
             audio.play();
         }
