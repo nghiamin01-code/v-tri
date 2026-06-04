@@ -22,13 +22,14 @@
             transition: transform 0.1s;
             position: relative;
             display: inline-block;
+            text-align: center;
         }
 
         /* Hình ảnh Chủ tịch Kim */
         .kim-img {
-            width: 300px; /* Điều chỉnh kích thước ảnh ở đây */
+            width: 300px; /* Cần to hay nhỏ hơn thì mầy tự chỉnh số này nha */
             height: auto;
-            border-radius: 15px; /* Bo góc ảnh cho đẹp */
+            border-radius: 15px; /* Bo góc ảnh cho mượt */
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); /* Hiệu ứng bóng đổ màu vàng kim */
             border: 3px solid #ffd700; /* Viền màu vàng kim sang trọng */
             transition: box-shadow 0.1s, border-color 0.1s;
@@ -42,7 +43,7 @@
 
         /* Hiệu ứng khi bấm */
         .kim-btn-container:active {
-            transform: scale(0.95); /* Thu nhỏ nhẹ khi bấm */
+            transform: scale(0.95); /* Thu nhỏ nhẹ khi bấm tạo cảm giác như nút thật */
         }
         .kim-btn-container:active .kim-img {
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
@@ -50,7 +51,6 @@
 
         /* Text hướng dẫn dưới ảnh */
         .hieu-lenh-text {
-            text-align: center;
             margin-top: 15px;
             font-weight: bold;
             font-size: 18px;
@@ -62,13 +62,11 @@
 </head>
 <body>
 
-    <!-- Container của cái nút bấm hình ảnh -->
     <div class="kim-btn-container" onclick="phatLenh()">
-        <img src="kim-jong-un.jpg" alt="Chủ tịch Kim Jong Un" class="kim-img">
+        <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Chủ tịch Kim Jong Un" class="kim-img">
         <div class="hieu-lenh-text">BẤM VÀO ẢNH ĐỂ NGHE HIỆU LỆNH!</div>
     </div>
 
-    <!-- Vẫn là link âm thanh trực tiếp từ Myinstants của mầy -->
     <audio id="tieng-lenh" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
 
     <script>
