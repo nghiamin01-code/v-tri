@@ -3,151 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nút Bấm Cơ Học Chủ Tịch Kim</title>
+    <title>Meme Poke Adventure</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #121212;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
+            overflow: hidden;
+            /* Thay đổi cursor thành cây que pixel */
+            cursor: url('https://i.ibb.co/L5h9g1N/que-pixel-pixelated.png'), auto;
+        }
+
+        /* Container chính của game */
+        .game-container {
+            width: 1000px;
+            height: 600px;
+            background: linear-gradient(135deg, #1e1e1e, #141414);
+            border-radius: 20px;
+            border: 5px solid #2a2a2a;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
             user-select: none;
         }
 
-        /* Bảng điều khiển bọc ngoài */
-        .control-panel {
-            background: linear-gradient(135deg, #2c2c2c, #1e1e1e);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 
-                inset 0 2px 5px rgba(255,255,255,0.1),
-                0 20px 40px rgba(0,0,0,0.6);
-            border: 4px solid #3a3a3a;
-            text-align: center;
+        /* Giao diện trên cùng */
+        .game-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+            border-bottom: 3px solid #ffd700;
         }
 
-        /* Tiêu đề quyền lực */
-        .panel-title {
+        .title {
             color: #ffd700;
-            font-size: 16px;
+            font-size: 24px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Vành nút (Phần đế cố định bên dưới) */
-        .button-bezel {
-            width: 240px;
-            height: 240px;
-            background: linear-gradient(135deg, #111, #333);
+        .counter {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Người đàn ông Meme - Vị trí cố định */
+        .man-sprite {
+            position: absolute;
+            bottom: 20px;
+            right: 50px;
+            width: 300px; /* Điều chỉnh kích thước ảnh nếu cần */
+            height: auto;
+            /* Link ảnh người đàn ông pixel (đã tách) */
+            background-image: url('https://i.ibb.co/LdvS4nQ/ong-ngơ-pixel.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Vùng mục tiêu "Địt ông đó" - Vùng ảnh mông */
+        .target-area {
+            position: absolute;
+            bottom: 60px; /* Điều chỉnh tọa độ này cho chính xác với ảnh */
+            right: 180px; /* Điều chỉnh tọa độ này cho chính xác với ảnh */
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 0, 0, 0.2); /* Chỉ hiển thị khi debug, để 0 khi chơi */
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            box-shadow: 
-                inset 0 5px 15px rgba(0,0,0,0.8),
-                0 2px 2px rgba(255,255,255,0.1);
-            padding: 10px;
+            cursor: inherit; /* Sử dụng cursor que */
+            z-index: 10;
         }
 
-        /* CÁI NÚT 3D CHÂN THẬT */
-        .real-button {
-            width: 100%;
-            height: 100%;
-            background: #a12c2c; /* Màu nền đỏ sậm */
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-            border: none;
-            outline: none;
-            
-            /* Tạo khối 3D nhô lên bằng box-shadow */
-            box-shadow: 
-                0 15px 0 #731d1d, /* Độ dày của nút */
-                0 15px 20px rgba(0,0,0,0.7); /* Bóng đổ xuống đế */
-            
-            transition: all 0.05s ease;
+        /* Speech bubble AAAAA! */
+        .aaaaa-bubble {
+            position: absolute;
+            bottom: 150px; /* Điều chỉnh tọa độ */
+            right: 280px; /* Điều chỉnh tọa độ */
+            background-color: #ffd700;
+            color: #121212;
+            padding: 15px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 28px;
+            display: none; /* Ẩn mặc định */
+            z-index: 20;
+            animation: burst 0.3s ease-out;
         }
 
-        /* Ảnh của Chủ tịch nằm giữa nút */
-        .real-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            mix-blend-mode: luminosity; /* Làm ảnh hơi hướng retro/cổ điển */
-            opacity: 0.9;
-            transition: all 0.05s ease;
+        .aaaaa-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 30px;
+            border-width: 15px 15px 0 0;
+            border-style: solid;
+            border-color: #ffd700 transparent;
         }
 
-        /* Hiệu ứng khi rê chuột vào (Nút hơi sáng lên) */
-        .real-button:hover {
-            filter: brightness(1.1);
+        @keyframes burst {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        /* HIỆU ỨNG BẤM LÚN XUỐNG CHÂN THẬT */
-        .real-button:active {
-            /* Giảm độ dày khối 3D xuống gần như bằng 0 */
-            box-shadow: 
-                0 2px 0 #731d1d, 
-                0 2px 5px rgba(0,0,0,0.8);
-            /* Đẩy cái nút dịch xuống dưới đúng bằng khoảng cách nó lún */
-            transform: translateY(13px);
-        }
-
-        .real-button:active img {
-            filter: brightness(0.8); /* Bấm xuống thì tối đi tí do khuất ánh sáng */
-        }
-
-        /* Đèn LED trạng thái */
-        .led-indicator {
-            width: 12px;
-            height: 12px;
-            background-color: #ff3333;
-            border-radius: 50%;
-            margin: 25px auto 0;
-            box-shadow: 0 0 10px #ff3333;
-            animation: blink 1s infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 0.4; box-shadow: 0 0 2px #ff3333; }
-            to { opacity: 1; box-shadow: 0 0 12px #ff3333; }
+        /* Các text phụ */
+        .guide-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <div class="control-panel">
-        <div class="panel-title">Hệ Thống Hiệu Lệnh Tối Cao</div>
-        
-        <!-- Vành nút -->
-        <div class="button-bezel">
-            <!-- Cái nút bấm cơ học -->
-            <button class="real-button" onclick="phatLenh()">
-                <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Kim Jong Un">
-            </button>
+    <div class="game-container">
+        <!-- Header -->
+        <div class="game-header">
+            <div class="title">MEME POKE ADVENTURE</div>
+            <div class="counter" id="pokeCounter">SỐ LẦN POKE: 0</div>
         </div>
 
-        <!-- Đèn LED nhấp nháy -->
-        <div class="led-indicator"></div>
+        <!-- Người đàn ông Meme -->
+        <div class="man-sprite"></div>
+
+        <!-- Vùng mục tiêu "Địt ông đó" -->
+        <div class="target-area" id="targetArea"></div>
+
+        <!-- Speech bubble AAAAA! -->
+        <div class="aaaaa-bubble" id="aaaaaBubble">AAAAA! é lutador!</div>
+
+        <!-- Hướng dẫn -->
+        <div class="guide-box">SỬ DỤNG CÂY QUE ĐỂ TƯƠNG TÁC!</div>
     </div>
 
-    <!-- LINK ÂM THANH MỚI CỦA MẦY ĐÃ ĐƯỢC THAY VÀO ĐÂY -->
-    <audio id="tieng-lenh" src="https://www.myinstants.com/media/sounds/aaaaaaaaaaaaaaaaaaaa-e-lutador.mp3"></audio>
+    <!-- Link âm thanh "AAAAA... é lutador!" -->
+    <audio id="tieng-aaaaa" src="https://www.myinstants.com/media/sounds/aaaaaaaaaaaaaaaaaaaa-e-lutador.mp3"></audio>
 
     <script>
-        function phatLenh() {
-            var audio = document.getElementById("tieng-lenh");
-            audio.currentTime = 0; // Bấm liên tục nó sẽ ngắt để kêu lại từ đầu cho nhây
+        let pokeCount = 0;
+        const counterElement = document.getElementById('pokeCounter');
+        const targetArea = document.getElementById('targetArea');
+        const bubble = document.getElementById('aaaaaBubble');
+        const audio = document.getElementById('tieng-aaaaa');
+
+        // Xử lý sự kiện click vào vùng mục tiêu
+        targetArea.addEventListener('click', function() {
+            // Tăng counter
+            pokeCount++;
+            counterElement.textContent = `SỐ LẦN POKE: ${pokeCount}`;
+
+            // Hiển thị bubble "AAAAA!"
+            bubble.style.display = 'block';
+            
+            // Phát âm thanh
+            audio.currentTime = 0; // Chơi lại từ đầu
             audio.play();
-        }
+
+            // Ẩn bubble sau 1 giây
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 1000);
+        });
     </script>
 
 </body>
