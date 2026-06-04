@@ -3,71 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nút Bấm Chủ Tịch Kim</title>
+    <title>Nút Bấm Cơ Học Chủ Tịch Kim</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #1a1a1a; /* Màu tối huyền bí */
-            font-family: Arial, sans-serif;
+            background-color: #121212;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            color: #ddd;
+            user-select: none;
         }
 
-        /* Container của cái nút bấm - hình ảnh */
-        .kim-btn-container {
-            cursor: pointer;
-            transition: transform 0.1s;
-            position: relative;
-            display: inline-block;
+        /* Bảng điều khiển bọc ngoài */
+        .control-panel {
+            background: linear-gradient(135deg, #2c2c2c, #1e1e1e);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 
+                inset 0 2px 5px rgba(255,255,255,0.1),
+                0 20px 40px rgba(0,0,0,0.6);
+            border: 4px solid #3a3a3a;
             text-align: center;
         }
 
-        /* Hình ảnh Chủ tịch Kim */
-        .kim-img {
-            width: 300px; /* Cần to hay nhỏ hơn thì mầy tự chỉnh số này nha */
-            height: auto;
-            border-radius: 15px; /* Bo góc ảnh cho mượt */
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); /* Hiệu ứng bóng đổ màu vàng kim */
-            border: 3px solid #ffd700; /* Viền màu vàng kim sang trọng */
-            transition: box-shadow 0.1s, border-color 0.1s;
-        }
-
-        /* Hiệu ứng khi di chuột qua */
-        .kim-btn-container:hover .kim-img {
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
-            border-color: #fff; /* Đổi viền sang trắng khi hover */
-        }
-
-        /* Hiệu ứng khi bấm */
-        .kim-btn-container:active {
-            transform: scale(0.95); /* Thu nhỏ nhẹ khi bấm tạo cảm giác như nút thật */
-        }
-        .kim-btn-container:active .kim-img {
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
-        }
-
-        /* Text hướng dẫn dưới ảnh */
-        .hieu-lenh-text {
-            margin-top: 15px;
+        /* Tiêu đề quyền lực */
+        .panel-title {
+            color: #ffd700;
+            font-size: 16px;
             font-weight: bold;
-            font-size: 18px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ffd700; /* Màu vàng kim */
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Vành nút (Phần đế cố định bên dưới) */
+        .button-bezel {
+            width: 240px;
+            height: 240px;
+            background: linear-gradient(135deg, #111, #333);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            box-shadow: 
+                inset 0 5px 15px rgba(0,0,0,0.8),
+                0 2px 2px rgba(255,255,255,0.1);
+            padding: 10px;
+        }
+
+        /* CÁI NÚT 3D CHÂN THẬT */
+        .real-button {
+            width: 100%;
+            height: 100%;
+            background: #a12c2c; /* Màu nền đỏ sậm */
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border: none;
+            outline: none;
+            
+            /* Tạo khối 3D nhô lên bằng box-shadow */
+            box-shadow: 
+                0 15px 0 #731d1d, /* Độ dày của nút */
+                0 15px 20px rgba(0,0,0,0.7); /* Bóng đổ xuống đế */
+            
+            transition: all 0.05s ease;
+        }
+
+        /* Ảnh của Chủ tịch nằm giữa nút */
+        .real-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: luminosity; /* Làm ảnh hơi hướng retro/cổ điển */
+            opacity: 0.9;
+            transition: all 0.05s ease;
+        }
+
+        /* Hiệu ứng khi rê chuột vào (Nút hơi sáng lên) */
+        .real-button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* HIỆU ỨNG BẤM LÚN XUỐNG CHÂN THẬT */
+        .real-button:active {
+            /* Giảm độ dày khối 3D xuống gần như bằng 0 */
+            box-shadow: 
+                0 2px 0 #731d1d, 
+                0 2px 5px rgba(0,0,0,0.8);
+            /* Đẩy cái nút dịch xuống dưới đúng bằng khoảng cách nó lún */
+            transform: translateY(13px);
+        }
+
+        .real-button:active img {
+            filter: brightness(0.8); /* Bấm xuống thì tối đi tí do khuất ánh sáng */
+        }
+
+        /* Đèn LED trạng thái */
+        .led-indicator {
+            width: 12px;
+            height: 12px;
+            background-color: #ff3333;
+            border-radius: 50%;
+            margin: 25px auto 0;
+            box-shadow: 0 0 10px #ff3333;
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 0.4; box-shadow: 0 0 2px #ff3333; }
+            to { opacity: 1; box-shadow: 0 0 12px #ff3333; }
         }
     </style>
 </head>
 <body>
 
-    <div class="kim-btn-container" onclick="phatLenh()">
-        <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Chủ tịch Kim Jong Un" class="kim-img">
-        <div class="hieu-lenh-text">BẤM VÀO ẢNH ĐỂ NGHE HIỆU LỆNH!</div>
+    <div class="control-panel">
+        <div class="panel-title">Hệ Thống Hiệu Lệnh Tối Cao</div>
+        
+        <!-- Vành nút -->
+        <div class="button-bezel">
+            <!-- Cái nút bấm cơ học -->
+            <button class="real-button" onclick="phatLenh()">
+                <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Kim Jong Un">
+            </button>
+        </div>
+
+        <!-- Đèn LED nhấp nháy -->
+        <div class="led-indicator"></div>
     </div>
 
-    <audio id="tieng-lenh" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
+    <!-- LINK ÂM THANH MỚI CỦA MẦY ĐÃ ĐƯỢC THAY VÀO ĐÂY -->
+    <audio id="tieng-lenh" src="https://www.myinstants.com/media/sounds/aaaaaaaaaaaaaaaaaaaa-e-lutador.mp3"></audio>
 
     <script>
         function phatLenh() {
