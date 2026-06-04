@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nút Bấm Siêu Thối</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1c1a; /* Màu tối hơi ngả rêu */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+        .btn-fart {
+            padding: 25px 50px;
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            /* Đổi sang màu xanh lá/nâu cho đúng vibe "bốc mùi" */
+            background: linear-gradient(45deg, #a8ff78, #78ffd6); 
+            color: #222;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(120, 255, 214, 0.4);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-fart:active {
+            transform: scale(0.9);
+            box-shadow: 0 5px 10px rgba(120, 255, 214, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cái nút siêu thối -->
+    <button class="btn-fart" onclick="thasuckien()">BẤM ĐỂ PHÁT RA ÂM THANH!</button>
+
+    <!-- Link âm thanh trực tiếp từ cái nút mầy chọn trên Myinstants -->
+    <audio id="tieng-bom" src="https://www.myinstants.com/media/sounds/fart-with-reverb.mp3"></audio>
+
+    <script>
+        function thasuckien() {
+            var audio = document.getElementById("tieng-bom");
+            audio.currentTime = 0; // Bấm liên tục nó sẽ ngắt để kêu lại từ đầu cho nhây
+            audio.play();
+        }
+    </script>
+
+</body>
+</html>
