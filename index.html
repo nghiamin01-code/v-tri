@@ -71,8 +71,8 @@
             
             /* Tạo khối 3D nhô lên bằng box-shadow */
             box-shadow: 
-                0 15px 0 #731d1d, /* Độ dày của nút */
-                0 15px 20px rgba(0,0,0,0.7); /* Bóng đổ xuống đế */
+                0 15px 0 #731d1d, 
+                0 15px 20px rgba(0,0,0,0.7);
             
             transition: all 0.05s ease;
         }
@@ -125,7 +125,7 @@
         <div class="panel-title">NÚT BẤM HIỆU LỆNH CỦA CHỦ TỊCH</div>
         
         <div class="button-bezel">
-            <button class="real-button" onclick="phatLenhNgauNhien()">
+            <button class="real-button" onclick="phatLenhKhongTrungLap()">
                 <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Kim Jong Un">
             </button>
         </div>
@@ -135,20 +135,33 @@
 
     <audio id="tieng-aaaaa" src="https://www.myinstants.com/media/sounds/aaaaaaaaaaaaaaaaaaaa-e-lutador.mp3"></audio>
     <audio id="tieng-fah" src="https://www.myinstants.com/media/sounds/fahhhhhhhhhhhhhhh.mp3"></audio>
+    <audio id="tieng-simon" src="https://www.myinstants.com/media/sounds/le-fart-de-simon.mp3"></audio>
 
     <script>
-        function phatLenhNgauNhien() {
-            var danhSachTieng = ["tieng-aaaaa", "tieng-fah"];
+        // Biến toàn cục để lưu ID của tiếng vừa phát lần trước
+        var tiengVuaPhat = "";
+
+        function phatLenhKhongTrungLap() {
+            var danhSachGoc = ["tieng-aaaaa", "tieng-fah", "tieng-simon"];
             
-            // Chọn ngẫu nhiên 1 trong 2 tiếng
-            var tiengNgauNhien = danhSachTieng[Math.floor(Math.random() * danhSachTieng.length)];
+            // Lọc danh sách: Loại bỏ tiếng vừa phát ở lần bấm trước ra
+            var danhSachHopLe = danhSachGoc.filter(function(tieng) {
+                return tieng !== tiengVuaPhat;
+            });
             
-            // Tắt hết âm thanh đang chạy trước đó để không bị đè tiếng khi spam nút
-            document.getElementById("tieng-aaaaa").pause();
-            document.getElementById("tieng-fah").pause();
+            // Chọn ngẫu nhiên 1 tiếng trong danh sách đã lọc (chỉ còn 2 lựa chọn)
+            var tiengDuocChon = danhSachHopLe[Math.floor(Math.random() * danhSachHopLe.length)];
             
-            // Phát âm thanh ngẫu nhiên
-            var audio = document.getElementById(tiengNgauNhien);
+            // Cập nhật lại biến để lần bấm sau biết đường mà né tiếng này ra
+            tiengVuaPhat = tiengDuocChon;
+            
+            // Dừng tất cả các tiếng đang chạy (để bấm spam liên tục không bị đè tiếng âm u)
+            danhSachGoc.forEach(function(id) {
+                document.getElementById(id).pause();
+            });
+            
+            // Phát tiếng mới được chọn
+            var audio = document.getElementById(tiengDuocChon);
             audio.currentTime = 0;
             audio.play();
         }
