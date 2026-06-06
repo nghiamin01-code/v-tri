@@ -3,42 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nút Bấm Phát Âm Thanh</title>
+    <title>Thomas & Friends Sound Button</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* Đặt hình nền ga tàu tràn màn hình */
+            background-image: url('https://images.prodia.xyz/64048ca3-5969-4e5a-a63e-526bfd895fc2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
-        /* Thiết kế nút bấm bằng hình ảnh */
+        /* Khung chứa nút bấm để căn tỉ lệ theo hình nền */
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            max-width: 1920px; /* Giữ đúng tỉ lệ ảnh */
+            max-height: 905px;
+        }
+
+        /* Nút bấm mặt tàu Thomas đặt đè lên vị trí đầu tàu đỏ */
         .sound-button {
+            position: absolute;
+            /* Tọa độ căn chuẩn theo vị trí đầu tàu trong ảnh nền */
+            top: 49%; 
+            left: 50.4%;
+            transform: translate(-50%, -50%);
+            
+            /* Ảnh mặt tàu làm nút bấm */
             background-image: url('https://i.postimg.cc/6qvpwLgG/Anh-chup-man-hinh-2026-06-06-140245.png');
             background-size: cover;
             background-position: center;
+            
+            /* Kích thước nút */
+            width: 105px;
+            height: 105px;
             border: none;
-            width: 150px; /* Bạn có thể tăng/giảm kích thước tùy ý */
-            height: 150px;
-            border-radius: 50%; /* Giúp nút tròn nếu ảnh là hình vuông */
+            border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            transition: transform 0.1s, box-shadow 0.1s;
+            
+            /* Hiệu ứng đổ bóng giúp nút nổi bật hơn */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(0,0,0,0.5);
+            transition: transform 0.1s, filter 0.1s;
+        }
+
+        /* Hiệu ứng khi rê chuột vào */
+        .sound-button:hover {
+            filter: brightness(1.2);
         }
 
         /* Hiệu ứng khi nhấn giữ nút */
         .sound-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translate(-50%, -50%) scale(0.92);
+            filter: brightness(0.9);
         }
     </style>
 </head>
 <body>
 
-    <button class="sound-button" onclick="playAudio()"></button>
+    <div class="container">
+        <button class="sound-button" onclick="playAudio()"></button>
+    </div>
 
     <audio id="train-audio" src="https://www.myinstants.com/media/sounds/gudok-poezda.mp3"></audio>
 
@@ -46,12 +78,12 @@
         function playAudio() {
             var audio = document.getElementById("train-audio");
             
-            // Tua về đầu nếu âm thanh đang phát mà người dùng bấm tiếp
+            // Tua về đầu nếu đang phát mà bấm tiếp
             audio.currentTime = 0; 
             
             // Phát âm thanh
             audio.play().catch(function(error) {
-                console.log("Trình duyệt chặn tự động phát hoặc có lỗi:", error);
+                console.log("Trình duyệt yêu cầu tương tác trước khi phát nhạc:", error);
             });
         }
     </script>
