@@ -3,167 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nút Bấm Cơ Học Tối Cao</title>
+    <title>Nút Bấm Phát Âm Thanh</title>
     <style>
         body {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #121212;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
-            user-select: none;
+            font-family: Arial, sans-serif;
         }
 
-        /* Bảng điều khiển bọc ngoài */
-        .control-panel {
-            background: linear-gradient(135deg, #2c2c2c, #1e1e1e);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 
-                inset 0 2px 5px rgba(255,255,255,0.1),
-                0 20px 40px rgba(0,0,0,0.6);
-            border: 4px solid #3a3a3a;
-            text-align: center;
-        }
-
-        /* Tiêu đề */
-        .panel-title {
-            color: #ffd700;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* Vành nút (Phần đế cố định bên dưới) */
-        .button-bezel {
-            width: 240px;
-            height: 240px;
-            background: linear-gradient(135deg, #111, #333);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            box-shadow: 
-                inset 0 5px 15px rgba(0,0,0,0.8),
-                0 2px 2px rgba(255,255,255,0.1);
-            padding: 10px;
-        }
-
-        /* CÁI NÚT 3D CHÂN THẬT */
-        .real-button {
-            width: 100%;
-            height: 100%;
-            background: #a12c2c; /* Màu nền đỏ sậm */
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
+        /* Thiết kế nút bấm bằng hình ảnh */
+        .sound-button {
+            background-image: url('https://i.postimg.cc/6qvpwLgG/Anh-chup-man-hinh-2026-06-06-140245.png');
+            background-size: cover;
+            background-position: center;
             border: none;
-            outline: none;
-            padding: 0;
-            
-            /* Tạo khối 3D nhô lên bằng box-shadow */
-            box-shadow: 
-                0 15px 0 #731d1d, 
-                0 15px 20px rgba(0,0,0,0.7);
-            
-            transition: all 0.05s ease;
+            width: 150px; /* Bạn có thể tăng/giảm kích thước tùy ý */
+            height: 150px;
+            border-radius: 50%; /* Giúp nút tròn nếu ảnh là hình vuông */
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
         }
 
-        /* Ảnh của Chủ tịch nằm giữa nút */
-        .real-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.05s ease;
-        }
-
-        /* Hiệu ứng khi rê chuột vào */
-        .real-button:hover {
-            filter: brightness(1.1);
-        }
-
-        /* HIỆU ỨNG BẤM LÚN XUỐNG CHÂN THẬT */
-        .real-button:active {
-            box-shadow: 
-                0 2px 0 #731d1d, 
-                0 2px 5px rgba(0,0,0,0.8);
-            transform: translateY(13px);
-        }
-
-        .real-button:active img {
-            filter: brightness(0.9);
-        }
-
-        /* Đèn LED trạng thái */
-        .led-indicator {
-            width: 12px;
-            height: 12px;
-            background-color: #ff3333;
-            border-radius: 50%;
-            margin: 25px auto 0;
-            box-shadow: 0 0 10px #ff3333;
-            animation: blink 1s infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 0.4; box-shadow: 0 0 2px #ff3333; }
-            to { opacity: 1; box-shadow: 0 0 12px #ff3333; }
+        /* Hiệu ứng khi nhấn giữ nút */
+        .sound-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
 
-    <div class="control-panel">
-        <div class="panel-title">NÚT BẤM HIỆU LỆNH CỦA CHỦ TỊCH</div>
-        
-        <div class="button-bezel">
-            <button class="real-button" onclick="phatLenhKhongTrungLap()">
-                <img src="https://i.postimg.cc/R0dB0wWY/Anh-chup-man-hinh-2026-06-04-220958.png" alt="Kim Jong Un">
-            </button>
-        </div>
+    <button class="sound-button" onclick="playAudio()"></button>
 
-        <div class="led-indicator"></div>
-    </div>
-
-    <audio id="tieng-aaaaa" src="https://www.myinstants.com/media/sounds/aaaaaaaaaaaaaaaaaaaa-e-lutador.mp3"></audio>
-    <audio id="tieng-fah" src="https://www.myinstants.com/media/sounds/fahhhhhhhhhhhhhhh.mp3"></audio>
-    <audio id="tieng-simon" src="https://www.myinstants.com/media/sounds/le-fart-de-simon.mp3"></audio>
+    <audio id="train-audio" src="https://www.myinstants.com/media/sounds/gudok-poezda.mp3"></audio>
 
     <script>
-        // Biến toàn cục để lưu ID của tiếng vừa phát lần trước
-        var tiengVuaPhat = "";
-
-        function phatLenhKhongTrungLap() {
-            var danhSachGoc = ["tieng-aaaaa", "tieng-fah", "tieng-simon"];
+        function playAudio() {
+            var audio = document.getElementById("train-audio");
             
-            // Lọc danh sách: Loại bỏ tiếng vừa phát ở lần bấm trước ra
-            var danhSachHopLe = danhSachGoc.filter(function(tieng) {
-                return tieng !== tiengVuaPhat;
+            // Tua về đầu nếu âm thanh đang phát mà người dùng bấm tiếp
+            audio.currentTime = 0; 
+            
+            // Phát âm thanh
+            audio.play().catch(function(error) {
+                console.log("Trình duyệt chặn tự động phát hoặc có lỗi:", error);
             });
-            
-            // Chọn ngẫu nhiên 1 tiếng trong danh sách đã lọc (chỉ còn 2 lựa chọn)
-            var tiengDuocChon = danhSachHopLe[Math.floor(Math.random() * danhSachHopLe.length)];
-            
-            // Cập nhật lại biến để lần bấm sau biết đường mà né tiếng này ra
-            tiengVuaPhat = tiengDuocChon;
-            
-            // Dừng tất cả các tiếng đang chạy (để bấm spam liên tục không bị đè tiếng âm u)
-            danhSachGoc.forEach(function(id) {
-                document.getElementById(id).pause();
-            });
-            
-            // Phát tiếng mới được chọn
-            var audio = document.getElementById(tiengDuocChon);
-            audio.currentTime = 0;
-            audio.play();
         }
     </script>
 
