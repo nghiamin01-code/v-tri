@@ -3,70 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thomas & Friends Sound Button</title>
+    <title>Nút Bấm Phát Âm Thanh - Giao Diện Mờ Ảo</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            /* Đặt hình nền ga tàu tràn màn hình */
-            background-image: url('https://images.prodia.xyz/64048ca3-5969-4e5a-a63e-526bfd895fc2.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #0b0c10; /* Nền tối phòng khi ảnh chưa tải xong */
             overflow: hidden;
-        }
-
-        /* Khung chứa nút bấm để căn tỉ lệ theo hình nền */
-        .container {
             position: relative;
-            width: 100vw;
-            height: 100vh;
-            max-width: 1920px; /* Giữ đúng tỉ lệ ảnh */
-            max-height: 905px;
         }
 
-        /* Nút bấm mặt tàu Thomas đặt đè lên vị trí đầu tàu đỏ */
-        .sound-button {
+        /* Tạo một lớp nền mờ ảo phía sau */
+        .background-blur {
             position: absolute;
-            /* Tọa độ căn chuẩn theo vị trí đầu tàu trong ảnh nền */
-            top: 49%; 
-            left: 50.4%;
-            transform: translate(-50%, -50%);
-            
-            /* Ảnh mặt tàu làm nút bấm */
+            top: -10px; left: -10px; right: -10px; bottom: -10px; /* Tràn ra một chút để che vệt trắng khi blur */
             background-image: url('https://i.postimg.cc/6qvpwLgG/Anh-chup-man-hinh-2026-06-06-140245.png');
             background-size: cover;
             background-position: center;
-            
-            /* Kích thước nút */
-            width: 105px;
-            height: 105px;
-            border: none;
+            background-repeat: no-repeat;
+            filter: blur(8px); /* Tạo độ mờ ảo */
+            z-index: 1;
+        }
+
+        /* Lớp phủ màu tối huyền bí đè lên ảnh nền giống ảnh ví dụ của bạn */
+        .background-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(8, 10, 15, 0.9));
+            z-index: 2;
+        }
+
+        /* Vùng chứa nút bấm nổi lên trên cùng */
+        .container {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Thiết kế lại nút bấm rõ nét, nổi bật trên nền mờ */
+        .sound-button {
+            width: 150px; 
+            height: 150px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
+            background-image: url('https://i.postimg.cc/6qvpwLgG/Anh-chup-man-hinh-2026-06-06-140245.png');
+            background-size: 110%; /* Phóng to mặt tàu một chút */
+            background-position: center;
             cursor: pointer;
+            outline: none;
             
-            /* Hiệu ứng đổ bóng giúp nút nổi bật hơn */
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(0,0,0,0.5);
-            transition: transform 0.1s, filter 0.1s;
+            /* Hiệu ứng đổ bóng phát sáng nhẹ bao quanh nút */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, filter 0.2s;
         }
 
-        /* Hiệu ứng khi rê chuột vào */
+        /* Hiệu ứng khi đưa chuột vào nút */
         .sound-button:hover {
-            filter: brightness(1.2);
+            transform: scale(1.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.15);
+            filter: brightness(1.1);
         }
 
-        /* Hiệu ứng khi nhấn giữ nút */
+        /* Hiệu ứng khi click giữ nút */
         .sound-button:active {
-            transform: translate(-50%, -50%) scale(0.92);
-            filter: brightness(0.9);
+            transform: scale(0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            filter: brightness(0.95);
         }
     </style>
 </head>
 <body>
+
+    <div class="background-blur"></div>
+    <div class="background-overlay"></div>
 
     <div class="container">
         <button class="sound-button" onclick="playAudio()"></button>
@@ -77,13 +93,9 @@
     <script>
         function playAudio() {
             var audio = document.getElementById("train-audio");
-            
-            // Tua về đầu nếu đang phát mà bấm tiếp
-            audio.currentTime = 0; 
-            
-            // Phát âm thanh
+            audio.currentTime = 0; // Tua về đầu để bấm liên tục được
             audio.play().catch(function(error) {
-                console.log("Trình duyệt yêu cầu tương tác trước khi phát nhạc:", error);
+                console.log("Trình duyệt chặn phát âm thanh:", error);
             });
         }
     </script>
